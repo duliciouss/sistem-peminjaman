@@ -35,9 +35,8 @@ class ItemController extends Controller
         return redirect()->back()->with('success', 'Berhasil create barang');
     }
 
-    public function edit($id)
+    public function edit(Item $item)
     {
-        $item = Item::find($id);
         return view('items.edit', compact('item'));
     }
 
@@ -60,10 +59,15 @@ class ItemController extends Controller
         return redirect()->back()->with('success', 'Berhasil update barang');
     }
 
-    public function destroy($id)
+    public function destroy(Item $item)
     {
-        $item = Item::find($id);
-        $item->delete();
-        return redirect()->back();
+        try {
+            $item->delete();
+            return redirect()->route('items.index')
+                ->with('success', 'Berhasil hapus barang');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Gagal hapus barang: ' . $e->getMessage());
+        }
     }
 }

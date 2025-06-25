@@ -22,6 +22,23 @@
     <a href="{{ route('items.create') }}" class="btn btn-primary mb-4">Create Barang</a>
     <div class="row">
         <div class="col-12">
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show">
+                    {{ session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show">
+                    {{ session('error') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
             <div class="card">
                 <div class="card-body">
                     <table class="table table-bordered table-hover item-table">
@@ -44,7 +61,15 @@
                                     <td>
                                         <a href="{{ route('items.edit', ['item' => $item->id]) }}"
                                             class="btn btn-info btn-sm">Edit</a>
-                                        <a href="" class="btn btn-danger btn-sm">Delete</a>
+                                        <form action="{{ route('items.destroy', $item->id) }}" method="POST"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Yakin ingin menghapus barang ini?')">
+                                                <i class="fas fa-trash-alt"></i> Delete
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
@@ -85,4 +110,46 @@
     <script>
         $('.item-table').dataTable();
     </script>
+
+    <!-- Tambahkan di bagian head -->
+    @stack('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Tombol Delete -->
+    <button class="btn btn-danger btn-sm delete-btn" data-id="{{ $item->id }}" data-name="{{ $item->name }}">
+        <i class="fas fa-trash-alt"></i> Delete
+    </button>
+
+    <!-- Form Delete (Hidden) -->
+    <form id="delete-form-{{ $item->id }}" action="{{ route('items.destroy', $item->id) }}" method="POST"
+        class="d-none">
+        @csrf
+        @method('DELETE')
+    </form>
+
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                $('.delete-btn').on('click', function() {
+                    const itemId = $(this).data('id');
+                    const itemName = $(this).data('name');
+
+                    Swal.fire({
+                        title: 'Yakin ingin menghapus?',
+                        text: `Anda akan menghapus item "${itemName}"`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Ya, Hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $(`#delete-form-${itemId}`).submit();
+                        }
+                    });
+                });
+            });
+        </script>
+    @endpush
 @endsection

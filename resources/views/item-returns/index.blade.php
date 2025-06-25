@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Peminjaman</h1>
+                    <h1 class="m-0">Pengembalian</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Manajemen Peminjaman</li>
+                        <li class="breadcrumb-item active">Manajemen Pengembalian</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -19,7 +19,6 @@
 @endsection
 
 @section('content')
-    <a href="{{ route('item-loans.create') }}" class="btn btn-primary mb-4"><i class="fas fa-plus"></i> Tambah Data</a>
     <div class="row">
         <div class="col-12">
             @if (session('success'))
@@ -48,29 +47,42 @@
                                 <th>Peminjam</th>
                                 <th>Nama Barang</th>
                                 <th>Kuantitas</th>
-                                <th>Tanggal Pinjam</th>
+                                <th>Tgl. Pinjam</th>
+                                <th>Status & Tgl. Pengembalian</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($itemLoans as $itemLoan)
+                            {{-- {{ dd($itemLoans) }} --}}
+                            @foreach ($itemLoans as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $itemLoan->user->name }}</td>
-                                    <td>{{ $itemLoan->item->name }}</td>
-                                    <td>{{ $itemLoan->qty }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($itemLoan->loan_date)->translatedFormat('d F Y') }}</td>
+                                    <td>{{ $item->user->name }}</td>
+                                    <td>{{ $item->item->name }}</td>
+                                    <td>{{ $item->qty }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->loan_date)->translatedFormat('d F Y') }}</td>
                                     <td>
-                                        @if ($itemLoan->item_return)
-                                            <a href="#" class="btn btn-info btn-sm disabled"><i
-                                                    class="fas fa-edit"></i> Edit</a>
-                                            <a href="#" class="btn btn-danger btn-sm disabled"><i
-                                                    class="fas fa-trash-alt"></i> Delete</a>
+                                        @if ($item->item_return)
+                                            <span class='badge badge-pill badge-success'>Sudah Dikembalikan
+                                                {{ \Carbon\Carbon::parse($item->item_return->return_date)->translatedFormat('d/M/Y') }}</span><br>
                                         @else
-                                            <a href="{{ route('item-loans.edit', ['item_loan' => $itemLoan->id]) }}"
-                                                class="btn btn-info btn-sm"><i class="fas fa-edit"></i> Edit</a>
-                                            <form action="{{ route('item-loans.destroy', $itemLoan->id) }}" method="POST"
+                                            <span class='badge badge-pill badge-warning'>Belum Dikembalikan</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if (!$item->item_return)
+                                            <form action="{{ route('item-returns.store') }}" method="post"
                                                 class="d-inline">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{ $item->id }}">
+                                                <button type="submit" class="btn btn-success btn-sm"
+                                                    onclick="return confirm('Yakin ingin kembalikan pinjaman barang ini?')">
+                                                    <i class="fas fa-backward"></i> Kembalikan
+                                                </button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('item-returns.destroy', $item->item_return->id) }}"
+                                                method="post" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm"

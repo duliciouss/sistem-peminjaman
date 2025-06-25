@@ -63,7 +63,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{ route('item-returns.index') }}"
+                        class="nav-link {{ request()->is('item-returns*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Pengembalian

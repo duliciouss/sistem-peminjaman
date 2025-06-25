@@ -17,4 +17,9 @@ class ItemLoan extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function item_return()
+    {
+        return $this->hasOne(ItemReturn::class, 'loan_id', 'id');
+    }
 }

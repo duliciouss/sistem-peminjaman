@@ -83,6 +83,18 @@ class ItemLoanController extends Controller
         DB::beginTransaction();
 
         try {
+            $item = Item::where('id', $validated['item_id'])->firstOrFail();
+            $item->increment('qty', $itemLoan->qty);
+
+            if ($validated['qty'] > $item->qty) {
+                throw new \Exception(
+                    "Stok tidak mencukupi. " .
+                        "Memerlukan: {$validated['qty']}, Stok tersedia: {$item->qty}"
+                );
+            }
+
+            $item->decrement('qty', $validated['qty']);
+
             $itemLoan->update($validated);
 
             DB::commit();

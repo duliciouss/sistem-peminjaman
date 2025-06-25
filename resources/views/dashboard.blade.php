@@ -14,9 +14,9 @@
 
 @section('content')
     <div class="row">
-        <div class="col-12 col-sm-6 col-md-3">
+        <div class="col-12 col-sm-6 col-md-4">
             <div class="info-box">
-                <span class="info-box-icon bg-info elevation-1"><i class="fas fa-box"></i></span>
+                <span class="info-box-icon bg-success elevation-1"><i class="fas fa-box"></i></span>
 
                 <div class="info-box-content">
                     <span class="info-box-text">Total Peminjaman</span>
@@ -28,12 +28,26 @@
             </div>
             <!-- /.info-box -->
         </div>
-        <div class="col-12 col-sm-6 col-md-3">
+        <div class="col-12 col-sm-6 col-md-4">
             <div class="info-box">
                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-box"></i></span>
 
                 <div class="info-box-content">
                     <span class="info-box-text">Total Pengembalian</span>
+                    <span class="info-box-number">
+                        0
+                    </span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="info-box">
+                <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-box"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Belum Dikembalikan</span>
                     <span class="info-box-number">
                         0
                     </span>

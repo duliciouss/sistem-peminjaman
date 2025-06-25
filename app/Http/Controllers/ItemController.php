@@ -28,7 +28,6 @@ class ItemController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'qty' => 'required|numeric|min:0',
-            'status' => 'required|in:available,unavailable'
         ]);
 
         DB::beginTransaction();
@@ -53,10 +52,10 @@ class ItemController extends Controller
 
     public function update(Request $request, Item $item)
     {
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'qty' => 'required|numeric|min:0',
-            'status' => 'required|in:available,unavailable'
         ]);
 
         DB::beginTransaction();
@@ -66,8 +65,7 @@ class ItemController extends Controller
 
             DB::commit();
 
-            return redirect()->route('items.index')
-                ->with('success', 'Berhasil memperbarui barang');
+            return redirect()->back()->with('success', 'Berhasil memperbarui barang');
         } catch (\Exception $e) {
             DB::rollBack();
 

@@ -21,7 +21,7 @@
                 <div class="info-box-content">
                     <span class="info-box-text">Total Peminjaman</span>
                     <span class="info-box-number">
-                        0
+                        {{ $stats['totalLoans'] }}
                     </span>
                 </div>
                 <!-- /.info-box-content -->
@@ -35,7 +35,7 @@
                 <div class="info-box-content">
                     <span class="info-box-text">Total Pengembalian</span>
                     <span class="info-box-number">
-                        0
+                        {{ $stats['returnedLoans'] }}
                     </span>
                 </div>
                 <!-- /.info-box-content -->
@@ -49,7 +49,7 @@
                 <div class="info-box-content">
                     <span class="info-box-text">Total Belum Dikembalikan</span>
                     <span class="info-box-number">
-                        0
+                        {{ $stats['unreturnedLoans'] }}
                     </span>
                 </div>
                 <!-- /.info-box-content -->

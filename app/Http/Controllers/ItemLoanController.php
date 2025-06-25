@@ -53,15 +53,18 @@ class ItemLoanController extends Controller
 
     public function edit(ItemLoan $itemLoan)
     {
-        return view('item-loans.edit', compact('itemLoan'));
+        $items = Item::where('status', 'available')->oldest('name')->get();
+        $users = User::oldest('name')->get();
+        return view('item-loans.edit', compact('itemLoan', 'items', 'users'));
     }
 
     public function update(Request $request, ItemLoan $itemLoan)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'user_id' => 'required',
+            'item_id' => 'required',
             'qty' => 'required|numeric|min:0',
-            'status' => 'required|in:available,unavailable'
+            'loan_date' => 'required'
         ]);
 
         DB::beginTransaction();

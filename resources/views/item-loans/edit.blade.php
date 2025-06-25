@@ -47,49 +47,54 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form>
+                <form method="post" action="{{ route('item-loans.update', ['item_loan' => $itemLoan->id]) }}">
                     @csrf
                     @method('PUT')
                     <div class="card-body">
-                        <!-- Nama Barang -->
                         <div class="form-group">
-                            <label for="name">Nama Barang</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
-                                name="name" placeholder="Masukan nama barang" value="{{ old('name', $itemLoan->name) }}"
-                                autofocus>
-                            @error('name')
+                            <label for="user_id">Peminjam</label>
+                            <select class="form-control select2bs4" name="user_id" id="user_id">
+                                <option value="" selected disabled>Pilih...</option>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}"
+                                        {{ $itemLoan->user_id == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('user_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-
-                        <!-- Kuantitas -->
+                        <div class="form-group">
+                            <label for="item_id">Nama Barang (Qty)</label>
+                            <select class="form-control select2bs4" name="item_id" id="item_id">
+                                <option value="" selected disabled>Pilih...</option>
+                                @foreach ($items as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ $itemLoan->item_id == $item->id ? 'selected' : '' }}>{{ $item->name }}
+                                        ({{ $item->qty }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('item_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                         <div class="form-group">
                             <label for="qty">Kuantitas</label>
                             <input type="number" class="form-control @error('qty') is-invalid @enderror" id="qty"
-                                name="qty" placeholder="Masukan jumlah barang" value="{{ old('qty', $itemLoan->qty) }}"
-                                min="0">
+                                name="qty" placeholder="Masukan kuantitas" value="{{ old('qty') ?? $itemLoan->qty }}"
+                                autofocus>
                             @error('qty')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-
-                        <!-- Status -->
                         <div class="form-group">
-                            <label>Status</label>
-                            <div class="form-check">
-                                <input class="form-check-input @error('status') is-invalid @enderror" type="radio"
-                                    name="status" value="available" id="available"
-                                    {{ old('status', $itemLoan->status) == 'available' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="available">Available</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input @error('status') is-invalid @enderror" type="radio"
-                                    name="status" value="unavailable" id="unavailable"
-                                    {{ old('status', $itemLoan->status) == 'unavailable' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="unavailable">Unavailable</label>
-                            </div>
-                            @error('status')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            <label for="loan_date">Tanggal Pinjam</label>
+                            <input type="date" class="form-control @error('loan_date') is-invalid @enderror"
+                                id="loan_date" name="loan_date" placeholder="Masukan tanggal"
+                                value="{{ old('loan_date') ?? $itemLoan->loan_date }}" autofocus>
+                            @error('loan_date')
+                                <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>

@@ -93,7 +93,7 @@
                                 <label class="form-check-label" for="unavailable">Unavailable</label>
                             </div>
                             @error('status')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                                <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>

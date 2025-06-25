@@ -64,11 +64,12 @@
                             <select class="form-control select2bs4" name="user_id" id="user_id">
                                 <option value="" selected disabled>Pilih...</option>
                                 @foreach ($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    <option value="{{ $user->id }}" {{ $user->id == old('user_id') ? 'selected' : '' }}>
+                                        {{ $user->name }}</option>
                                 @endforeach
                             </select>
                             @error('user_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                                <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="form-group">
@@ -76,12 +77,14 @@
                             <select class="form-control select2bs4" name="item_id" id="item_id">
                                 <option value="" selected disabled>Pilih...</option>
                                 @foreach ($items as $item)
-                                    <option value="{{ $item->id }}">{{ $item->name }} ({{ $item->qty }})
+                                    <option value="{{ $item->id }}"
+                                        {{ $item->id == old('item_id') ? 'selected' : '' }}>{{ $item->name }}
+                                        ({{ $item->qty }})
                                     </option>
                                 @endforeach
                             </select>
                             @error('item_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                                <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="form-group">

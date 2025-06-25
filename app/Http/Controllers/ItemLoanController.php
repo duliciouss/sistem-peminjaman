@@ -31,21 +31,34 @@ class ItemLoanController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'user_id' => 'required',
-            'item_id' => 'required',
-            'qty' => 'required|numeric|min:0',
-            'loan_date' => 'required'
+            'user_id' => 'required|exists:users,id',
+            'item_id' => 'required|exists:items,id',
+            'qty' => 'required|integer|min:1',
+            'loan_date' => 'required|date'
         ]);
 
-        // DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
+            $item = Item::findOrFail($request->item_id);
+
+            if ($validated['qty'] > $item->qty) {
+                throw new \Exception("Stok tidak mencukupi. Stok tersedia: {$item->qty}");
+            }
+
+            if ($item->status != 'available') {
+                throw new \Exception("Barang tidak tersedia untuk dipinjam (Status: {$item->status})");
+            }
+
             ItemLoan::create($validated);
-            // DB::commit();
+
+            $item->decrement('qty', $validated['qty']);
+
+            DB::commit();
 
             return redirect()->back()->with('success', 'Berhasil menambahkan peminjaman');
         } catch (\Exception $e) {
-            // DB::rollBack();
+            DB::rollBack();
             Log::error($e->getMessage());
             return redirect()->back()->withInput()->with('error', 'Gagal menambahkan peminjaman: ' . $e->getMessage());
         }
@@ -88,6 +101,9 @@ class ItemLoanController extends Controller
         DB::beginTransaction();
 
         try {
+            $item = Item::findOrFail($itemLoan->item_id);
+            $item->increment('qty', $itemLoan->qty);
+
             $itemLoan->delete();
 
             DB::commit();

@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Edit Barang</h1>
+                    <h1 class="m-0">Edit Peminjaman</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('items.index') }}">Manajemen Barang</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('items.index') }}">Peminjaman</a></li>
                         <li class="breadcrumb-item active">Edit</li>
                     </ol>
                 </div><!-- /.col -->
@@ -43,11 +43,11 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Form Edit Barang</h3>
+                    <h3 class="card-title">Form Edit Peminjaman</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action="{{ route('items.update', ['item' => $item->id]) }}" method="POST">
+                <form>
                     @csrf
                     @method('PUT')
                     <div class="card-body">
@@ -55,7 +55,7 @@
                         <div class="form-group">
                             <label for="name">Nama Barang</label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
-                                name="name" placeholder="Masukan nama barang" value="{{ old('name', $item->name) }}"
+                                name="name" placeholder="Masukan nama barang" value="{{ old('name', $itemLoan->name) }}"
                                 autofocus>
                             @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -66,7 +66,7 @@
                         <div class="form-group">
                             <label for="qty">Kuantitas</label>
                             <input type="number" class="form-control @error('qty') is-invalid @enderror" id="qty"
-                                name="qty" placeholder="Masukan jumlah barang" value="{{ old('qty', $item->qty) }}"
+                                name="qty" placeholder="Masukan jumlah barang" value="{{ old('qty', $itemLoan->qty) }}"
                                 min="0">
                             @error('qty')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -79,13 +79,13 @@
                             <div class="form-check">
                                 <input class="form-check-input @error('status') is-invalid @enderror" type="radio"
                                     name="status" value="available" id="available"
-                                    {{ old('status', $item->status) == 'available' ? 'checked' : '' }}>
+                                    {{ old('status', $itemLoan->status) == 'available' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="available">Available</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input @error('status') is-invalid @enderror" type="radio"
                                     name="status" value="unavailable" id="unavailable"
-                                    {{ old('status', $item->status) == 'unavailable' ? 'checked' : '' }}>
+                                    {{ old('status', $itemLoan->status) == 'unavailable' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="unavailable">Unavailable</label>
                             </div>
                             @error('status')
@@ -97,7 +97,7 @@
 
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary float-end">Simpan</button>
-                        <a href="{{ route('items.index') }}" class="btn btn-secondary">Kembali</a>
+                        <a href="{{ route('item-loans.index') }}" class="btn btn-secondary">Kembali</a>
                     </div>
                 </form>
             </div>

@@ -84,7 +84,7 @@
                         </div>
 
                         <!-- Status -->
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label>Status</label>
                             <div class="form-check">
                                 <input class="form-check-input @error('status') is-invalid @enderror" type="radio"
@@ -101,13 +101,15 @@
                             @error('status')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
-                        </div>
+                        </div> --}}
                     </div>
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary float-end">Simpan</button>
-                        <a href="{{ route('items.index') }}" class="btn btn-secondary">Kembali</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-floppy-disk"></i>Simpan</i></button>
+                        <a href="{{ route('items.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i>Kembali</a>
                     </div>
                 </form>
             </div>

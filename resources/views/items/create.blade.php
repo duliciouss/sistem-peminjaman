@@ -77,7 +77,7 @@
                             @enderror
                         </div>
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="status">Status</label>
 
                             <div class="form-check">
@@ -95,13 +95,15 @@
                             @error('status')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
-                        </div>
+                        </div> --}}
                     </div>
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary float-end">Simpan</button>
-                        <a href="{{ route('items.index') }}" class="btn btn-secondary">Kembali</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-regular fa-floppy-disk"></i> Simpan</i></button>
+                        <a href="{{ route('items.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Kembali</a>
                     </div>
                 </form>
             </div>

@@ -46,6 +46,7 @@
                                 <th>No</th>
                                 <th>Peminjam</th>
                                 <th>Nama Barang</th>
+                                <th>Link Barang</th>
                                 <th>Kuantitas</th>
                                 <th>Tgl. Pinjam</th>
                                 <th>Status & Tgl. Pengembalian</th>
@@ -59,6 +60,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->user->name }}</td>
                                     <td>{{ $item->item->name }}</td>
+                                    <td><a href="https://google.com" target="_blank">LINK</a></td>
                                     <td>{{ $item->qty }}</td>
                                     <td>{{ \Carbon\Carbon::parse($item->loan_date)->translatedFormat('d F Y') }}</td>
                                     <td>
